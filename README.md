@@ -39,3 +39,24 @@ A real-time computer vision application that turns your webcam into an interacti
 ```bash
 git clone [https://github.com/sreeragpp86/air-canvas.git](https://github.com/sreeragpp86/air-canvas.git)
 cd air-canvas
+
+2. Create a Virtual Environment & Install Dependencies
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install opencv-python mediapipe numpy
+
+3. Run the Application
+python aircanvas.py
+
+Note (macOS Users): On the first run, macOS will ask for Camera permissions for your terminal or IDE. Click Allow (or enable it under System Settings → Privacy & Security → Camera) and run the script again.
+🧠 How It Works
+Landmark Extraction: MediaPipe detects 21 hand landmarks per frame. By comparing fingertip y-coordinates against their middle joints (landmark[8] vs. landmark[6] for the index finger, and landmark[12] vs. landmark[10] for the middle finger), the app determines which fingers are extended.
+Persistent Canvas Buffer: Strokes are drawn onto a separate black NumPy array matching the webcam resolution rather than directly onto the video frames.
+Bitwise Masking: Each frame converts the canvas into a binary mask (cv2.threshold), blacks out the drawn pixels on the live camera feed (cv2.bitwise_and), and merges the colored strokes on top (cv2.add).
+🔮 Future Improvements
+[ ] Dynamic brush size control using thumb-to-index pinch distance
+[ ] Stroke smoothing (exponential moving average) to reduce webcam jitter
+[ ] Export artwork as a transparent .png file via gesture or hotkey
+[ ] Eraser tool and custom color palette
+📄 License
+This project is open-source and available under the MIT License.
